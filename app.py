@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, session
 from forex import Forex
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -12,17 +12,28 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS']=False
 
 
 @app.route("/")
-    
 def homepage():
     """Homepage for currency converter"""
+    #rebind sessions
+    curr_from = session['convert_from']
+    curr_to = session['convert_to']
+    amt = session['convert_amt']
+
     return render_template("home.html")
+
 
 @app.route("/submission", methods=["POST"])
 def data_submitted():
     """POST route for submitted data"""
-    curr_from = request.form['currency_from']
-    curr_to = request.form['currency_to']
-    amt = request.form['amount']
+    # save input to session
+    session['convert_from'] = request.form['currency_from']
+    session['convert_to'] = request.form['currency_to']
+    session['convert_amt'] = request.form['amount']
+
+    #rebind sessions
+    curr_from = session['convert_from']
+    curr_to = session['convert_to']
+    amt = session['convert_amt']
 
     #create class out of submitted data
     submission = Forex(curr_from, curr_to, amt)
