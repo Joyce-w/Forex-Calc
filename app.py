@@ -37,6 +37,7 @@ def data_submitted():
 
     #create class out of submitted data
     submission = Forex(curr_from, curr_to, amt)
+
     #check if currency is valid
     check_curr_from = submission.check_valid_curr(curr_from)
     check_curr_to = submission.check_valid_curr(curr_to)
@@ -46,5 +47,10 @@ def data_submitted():
 
     if (check_curr_to is False):
         flash(f"{curr_to} is an invalid currency, try again.")
+
+    #check if amt is valid
+    check_amt = submission.check_amt(amt)
+    if (check_amt is False):
+        flash("Please enter a numerical amount to convert")
 
     return redirect("/")

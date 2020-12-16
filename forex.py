@@ -20,10 +20,11 @@ class Forex:
             print("currency is not 3 chars long")
             
 
-    # def check_amt(self, amt){
-    #     """check if amt has the correct decimal places. return T/F"""
-    #     deci_amt = Decimal(str(amt)) % 1
-
-    # }
+    def check_amt(self, amt):
+        """check if amt is valid"""
+        if (type(amt) is 'float' or type(amt) is 'int'):
+            return True
+        else:
+            return False
 
 
