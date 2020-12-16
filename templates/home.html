@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/app.css">
+    <title>Currency Converter</title>
+</head>
+<body>
+
+{% for msg in get_flashed_messages() %}
+    <p>{{msg}}</p>
+{% endfor %}
+    
+    <div>
+        <div class="currency-container">
+            <form action="/submission", method="POST">
+                <h3 class="currency-heading">Currency Converter</h3>
+                <input type="text" name="currency_from" placeholder="Converting from..">
+                <input type="text" name="currency_to" placeholder="Converting to..">
+                <input type="text" name="amount" placeholder="Amount">
+                <br>
+                <button>Convert</button>
+            </form>
+        </div>
+
+    </div>
+    
+</body>
+</html>

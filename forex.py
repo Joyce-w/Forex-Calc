@@ -1,4 +1,3 @@
-
 class Forex:
     
     def __init__(self, curr_from, curr_to, amt):
