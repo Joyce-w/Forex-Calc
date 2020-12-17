@@ -15,9 +15,9 @@
 
 
     <div class="currency-container">
+
         <form action="/submission">
             <h3 class="currency-heading">Currency Converter</h3>
-
             <!--Select for converting from-->
             <label for="convert_from">Convert From</label>
                 <select name="convert_from" id="convert_from">
@@ -36,7 +36,7 @@
 
             <!--Amount input-->
             <label for="amt_input">Amount to convert</label>
-                <input type="number" name="amt" min="1">
+                <input type="number" name="amt" min="1" value="1">
             
                 <button>Convert</button>
         </form>
@@ -45,8 +45,14 @@
     
     <div class="result_msg">
         {% if session['conversion'] %}
-        <h3>{{session['convert_amount']}} {{session['convert_from']}} to {{session['convert_to']}} is {{session['conversion']}}</h3>
-
+            <h3>{{session['convert_from']}}: 
+                {{session['convert_from_symbol']}}
+                {{session['convert_amt']}} 
+                =
+                {{session['convert_to']}}: 
+                {{session['convert_to_symbol']}}
+                {{session['conversion']}}
+            </h3>
         {% endif %}
     </div>
 

@@ -1,11 +1,21 @@
+
 form{
-    margin: 10% auto;
-    width: 15vw;
+    margin: 10% auto 2%;
+    width: 390px;
     padding: 2%;
     border: black solid 1px;
     text-align: center;
 }
 
+.currency-heading{
+    padding-bottom: 0.8em;
+}
+
 form input {
     margin: 5px;
+}
+
+.result_msg {
+    margin: 0 33%;
+    text-align: center;
 }
