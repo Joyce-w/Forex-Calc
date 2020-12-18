@@ -19,8 +19,12 @@ cc = CurrencyCodes()
 @app.route("/")
 def homepage():
     """Homepage for currency converter"""
-    #get country currency code from API
-    res = requests.get("https://api.ratesapi.io/api/latest?base=USD")
+    try:
+        #get country currency code from API
+        res = requests.get("https://api.ratesapi.io/api/latest?base=USD")
+    except:
+        print("API server is down, please try again later.")
+
     country_codes = sorted(res.json()['rates'].keys())
 
     return render_template("home.html", country_codes=country_codes)
@@ -28,12 +32,17 @@ def homepage():
 
 @app.route("/submission")
 def data_submitted():
-    """POST route for submitted data"""
+    """GET route for submitted data"""
    
     #save input to session
     session['convert_from'] = request.args['convert_from']
     session['convert_to'] = request.args['convert_to']
-    session['convert_amt'] = request.args['amt']
+
+    if request.args['amt'] == '':
+        flash("Please enter a larger amount to convert!")
+
+    else:
+        session['convert_amt'] = request.args['amt']
 
     #rebind sessions
     curr_from = session['convert_from']
@@ -49,7 +58,7 @@ def data_submitted():
     
     session['conversion'] = round(cr.convert(curr_from, curr_to, float(amt)), 2)
 
-    ############ Don't need to make a class?##############
+    ############ Don't need to make a class##############
     #create class out of submitted data
     submission = Forex(curr_from, curr_to, amt)
 
@@ -72,5 +81,5 @@ def data_submitted():
     #check if amount less than 0
     if (session['conversion'] <= 0):
         flash("The rate is less than 0. :( ")
-    
+
     return redirect("/")
