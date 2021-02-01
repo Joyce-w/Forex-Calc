@@ -25,8 +25,11 @@
             <div>
                 <label for="convert_from">Convert From</label>
                     <select name="convert_from" id="convert_from">
-                        {% for currency in country_codes %}
-                        <option value="{{currency}}">{{currency}}</option>
+
+
+                        {% for name in currencies%}
+                        <option value="{{name}}">{{name}}, {{currencies[name]}}</option>
+
                         {% endfor %}
                     </select>
             </div>
@@ -34,33 +37,26 @@
             <div>
                 <label for="convert_to">Convert To</label>
                     <select name="convert_to" id="convert_to">
-                        {% for currency in country_codes %}
-                        <option value="{{currency}}">{{currency}}</option>
+                        {% for name in currencies%}
+                        <option value="{{name}}">{{name}}, {{currencies[name]}}</option>
                         {% endfor %}
                     </select>
             </div>
             <!--Amount input-->
             <div>
                 <label for="amt_input">Amount to convert</label>
-                    <input class="amount_input" type="number" name="amt" min="1" >
+                    <input class="amount_input" type="number" name="amt" min="1" placeholder="1">
             </div>
             <button class="btn btn-outline-success">Convert</button>
-        </form>
 
-
-        
-    </div>
 
     <div class="result_msg">
         {% if session['conversion'] %}
-            <h4>{{session['convert_from']}}: 
-                {{session['convert_from_symbol']}}
-                {{session['convert_amt']}} 
-                =
-                {{session['convert_to']}}: 
-                {{session['convert_to_symbol']}}
-                {{session['conversion']}}
-            </h4>
+        <h5>
+            {{session['convert_amt']}} {{session['convert_from_name']}}
+            equals
+            {{session['conversion']}} {{session['convert_to_name']}}
+        </h5>
         {% endif %}
     </div>
 
@@ -76,6 +72,14 @@
             </li>
         </ul>
     </div>
+
+        </form>
+
+
+        
+    </div>
+
+
     
 </body>
 </html>

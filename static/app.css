@@ -4,8 +4,8 @@ body{
 
 form{
     margin: 10% auto 2%;
-    width: 390px;
-    padding: 2%;
+    width: 25%;
+    padding: 2rem;
     border: rgb(233, 238, 255) solid 1px;
     text-align: center;
     background-color: #fdf6f6d7;
@@ -29,10 +29,10 @@ form input {
     padding-bottom: 0.8em;
 }
 .result_msg {
-    margin: 0 auto;
-    text-align: center;
-    width: 390px;
-    background-color: #fdf6f6d7;
-    background-color: #fdf6f6d7;
-    border-radius: 2%;
+    margin-top: 2em;
+
+}
+
+.credits {
+    height:1rem;
 }

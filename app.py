@@ -27,7 +27,10 @@ def homepage():
 
     country_codes = sorted(res.json()['rates'].keys())
 
-    return render_template("home.html", country_codes=country_codes)
+    currencies = {curr_code: cc.get_currency_name(curr_code) for curr_code in country_codes}
+
+
+    return render_template("home.html", currencies=currencies)
 
 
 @app.route("/submission")
@@ -58,20 +61,6 @@ def data_submitted():
     
     session['conversion'] = round(cr.convert(curr_from, curr_to, float(amt)), 2)
 
-    ############ Don't need to make a class##############
-    #create class out of submitted data
-    submission = Forex(curr_from, curr_to, amt)
-
-    #check if currency is valid
-    check_curr_from = submission.check_valid_curr(curr_from)
-    check_curr_to = submission.check_valid_curr(curr_to)
-
-    # if (check_curr_from is False):
-    #     flash(f"{curr_from} is an invalid currency , try again.")
-
-    # if (check_curr_to is False):
-    #     flash(f"{curr_to} is an invalid currency, try again.")
-    ######################################################
 
 
     #check if input currencies are the same
