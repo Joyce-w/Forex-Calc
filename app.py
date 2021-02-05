@@ -20,15 +20,16 @@ cc = CurrencyCodes()
 def homepage():
     """Homepage for currency converter"""
     try:
-        #get country currency code from API
+        #country currency code source used in conjunction with forex-python library 
         res = requests.get("https://api.ratesapi.io/api/latest?base=USD")
     except:
         print("API server is down, please try again later.")
 
+    # alphabatize currency codes for user friendliness
     country_codes = sorted(res.json()['rates'].keys())
 
+    # create dict consisiting of currency symbol and its coresponding name
     currencies = {curr_code: cc.get_currency_name(curr_code) for curr_code in country_codes}
-
 
     return render_template("home.html", currencies=currencies)
 
@@ -37,38 +38,40 @@ def homepage():
 def data_submitted():
     """GET route for submitted data"""
    
-    #save input to session
+    #save form input values to session
     session['convert_from'] = request.args['convert_from']
     session['convert_to'] = request.args['convert_to']
 
+    # notify user of empty conversion amount
     if request.args['amt'] == '':
-        flash("Please enter a larger amount to convert!")
+        flash("Please enter an amount to convert!")
+
 
     else:
         session['convert_amt'] = request.args['amt']
 
-    #rebind sessions
+    #rebind session data
     curr_from = session['convert_from']
     curr_to = session['convert_to']
     amt = session['convert_amt']
+    amt = float(amt)
 
-    #save name & symbol to session
+    #check if amount less than 0
+    if (amt <= 0):
+        flash("Please enter a rate greater than 0.")
+
+    #check if input currencies are the same and display error 
+    if (curr_from == curr_to):
+        flash("Please select different currencies from each selection.")
+
+    #save currency symbols & names to session
     session['convert_from_symbol'] = cc.get_symbol(curr_from)
     session['convert_to_symbol'] = cc.get_symbol(curr_to)
 
     session['convert_from_name'] = cc.get_currency_name(curr_from)
     session['convert_to_name'] = cc.get_currency_name(curr_to)
     
-    session['conversion'] = round(cr.convert(curr_from, curr_to, float(amt)), 2)
-
-
-
-    #check if input currencies are the same
-    if (curr_from == curr_to):
-        flash("Please select different currencies from each selection.")
-
-    #check if amount less than 0
-    if (session['conversion'] <= 0):
-        flash("The rate is less than 0. :( ")
-
+    # calculate conversion rate from session data, limit to 2 place values
+    session['conversion'] = round(cr.convert(curr_from, curr_to, amt), 2)
+    
     return redirect("/")
